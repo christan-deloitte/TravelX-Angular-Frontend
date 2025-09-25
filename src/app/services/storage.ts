@@ -6,7 +6,6 @@ export class Storage {
     users: 'wlx_users',
     current: 'wlx_current_user',
     newsletter: 'wlx_newsletter',
-
   };
 
   getJSON<T>(key: keyof typeof this.LS, fallback: T): T {
@@ -31,7 +30,7 @@ export class Storage {
 
   signup(user: { fullName: string; email: string; password: string }): string {
     const users = this.getJSON<any[]>('users', []);
-    if (users.some(u => u.email === user.email)) return 'User already exists!';
+    if (users.some((u) => u.email === user.email)) return 'User already exists!';
     users.push(user);
     this.setJSON('users', users);
     return 'Signup successful!';
@@ -39,7 +38,7 @@ export class Storage {
 
   login(email: string, password: string): string {
     const users = this.getJSON<any[]>('users', []);
-    const user = users.find(u => u.email === email && u.password === password);
+    const user = users.find((u) => u.email === email && u.password === password);
     if (!user) return 'Invalid credentials!';
     this.setJSON('current', { fullName: user.fullName, email: user.email });
     return 'Login successful!';

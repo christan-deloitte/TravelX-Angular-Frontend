@@ -1,4 +1,7 @@
+// src/app/app.routes.ts
 import { Routes } from '@angular/router';
+
+// Import standalone components
 import { Home } from './components/home/home/home';
 import { About } from './components/about/about/about';
 import { Packages } from './components/packages/packages/packages';
@@ -15,4 +18,5 @@ export const routes: Routes = [
   { path: 'booking', component: Booking },
   { path: 'contact', component: Contact },
   { path: 'auth', component: Auth },
+  { path: '**', redirectTo: '' }, // fallback to home
 ];

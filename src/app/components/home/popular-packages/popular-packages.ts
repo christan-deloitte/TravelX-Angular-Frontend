@@ -1,21 +1,32 @@
+// src/app/components/home/popular-packages/popular-packages.ts
 import { Component, OnInit } from '@angular/core';
-import { Data } from '../../../services/data';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterModule } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { Data, Package } from '../../../services/data';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-popular-packages',
-  imports: [CommonModule, RouterLink, RouterModule, MatIconModule],
+  standalone: true,
+  imports: [CommonModule, RouterLink, MatIconModule],
   templateUrl: './popular-packages.html',
   styleUrls: ['./popular-packages.css'],
 })
 export class PopularPackages implements OnInit {
-  packages: any[] = [];
+  packages: Package[] = [];
 
   constructor(private dataService: Data) {}
 
   ngOnInit() {
-    this.packages = this.dataService.getPackages();
+    // Subscribe to getPackages observable
+    this.dataService.getPackages().subscribe({
+      next: (data) => {
+        this.packages = data;
+      },
+      error: (err) => {
+        console.error('Failed to fetch packages', err);
+      },
+    });
   }
 }
